@@ -1,7 +1,7 @@
 {
   "name": "svg-dia-study",
   "version": "1.0.0",
-  "description": "A Study of diagram tool with Vue.js and SVGDiagram tool with Vue and SVGDiagramm",
+  "description": "A Study of diagram tool with Vue.js and SVG.",
   "author": "KONDO Masahiro <kondoumh@gmail.com>",
   "private": true,
   "scripts": {
