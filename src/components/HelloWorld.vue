@@ -1,86 +1,21 @@
 <template>
-  <div class="hello">
+  <div
+    id="dia"
+      @mousemove="mousemoveApp"
+      @mouseup="mouseupApp"
+      @touchmove="mousemoveApp"
+      @touchend="mouseupApp"
+  >
+    <svg viewbox="0 0 300 200" width="300" height="200">
+      <line :x1="p[0].x + 30" :y1="p[0].y + 20" :x2="p[1].x" :y2="p[1].y" stroke="black"></line>
+      <rect :x="p[0].x" :y="p[0].y" width=60 height="40" fill="red" @mousedown="mousedownPoint(1)" @touchstart="mousedownPoint(1)" />
+      <circle :cx="p[1].x" :cy="p[1].y" :r="r1" fill="green" @mousedown="mousedownPoint(2)" @touchstart="mousedownPoint(2)"/>
+    </svg>
+    <div>
+      <input type="range" v-model="r1">
+    </div>
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -88,7 +23,43 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'SVG Dia Study',
+      moveIndex: null,
+      r1: 30,
+      p: [
+        {x: 10, y: 10},
+        {x: 150, y: 150},
+        {x: 60, y: 50},
+        {x: 510, y: 10}
+      ]
+    }
+  },
+  methods: {
+    mousedownPoint (index) {
+      this.moveIndex = index
+    },
+    mousemoveApp (e) {
+      if (this.moveIndex) {
+        var x = e.pageX
+        var y = e.pageY
+        if (this.moveIndex === 1) {
+          x -= 30
+          y -= 20
+        }
+        this.setPosition(this.moveIndex - 1, x, y)
+      }
+    },
+    mouseupApp (e) {
+      if (this.moveIndex) {
+        console.log('index: ' + this.moveIndex + ' x: ' + e.pageX + ' y: ' + e.pageY)
+        this.moveIndex = null
+      }
+    },
+    setPosition (index, x, y) {
+      this.p.splice(index, 1, {
+        x: x,
+        y: y
+      })
     }
   }
 }
@@ -98,16 +69,5 @@ export default {
 <style scoped>
 h1, h2 {
   font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
