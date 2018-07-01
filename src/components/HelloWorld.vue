@@ -8,8 +8,8 @@
   >
     <svg viewbox="0 0 300 200" width="300" height="200">
       <line :x1="p[0].x + 30" :y1="p[0].y + 20" :x2="p[1].x" :y2="p[1].y" stroke="black"></line>
-      <rect :x="p[0].x" :y="p[0].y" width=60 height="40" fill="red" @mousedown="mousedownPoint(1)" @touchstart="mousedownPoint(1)" />
-      <circle :cx="p[1].x" :cy="p[1].y" :r="r1" fill="green" @mousedown="mousedownPoint(2)" @touchstart="mousedownPoint(2)"/>
+      <rect :x="p[0].x" :y="p[0].y" width=60 height="40" fill="red" @mousedown="mousedownPoint" @touchstart="mousedownPoint" />
+      <circle :cx="p[1].x" :cy="p[1].y" :r="r1" fill="green" @mousedown="mousedownPoint" @touchstart="mousedownPoint"/>
     </svg>
     <div>
       <input type="range" v-model="r1">
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       msg: 'SVG Dia Study',
-      moveIndex: null,
+      target: null,
       r1: 30,
       p: [
         {x: 10, y: 10},
@@ -35,24 +35,29 @@ export default {
     }
   },
   methods: {
-    mousedownPoint (index) {
-      this.moveIndex = index
+    mousedownPoint (e) {
+      console.log(e)
+      this.target = e.target.nodeName
     },
     mousemoveApp (e) {
-      if (this.moveIndex) {
+      if (this.target) {
         var x = e.pageX
         var y = e.pageY
-        if (this.moveIndex === 1) {
+        if (this.target === 'rect') {
           x -= 30
           y -= 20
         }
-        this.setPosition(this.moveIndex - 1, x, y)
+        let index = 0
+        if (this.target === 'circle') {
+          index = 1
+        }
+        this.setPosition(index, x, y)
       }
     },
     mouseupApp (e) {
-      if (this.moveIndex) {
-        console.log('index: ' + this.moveIndex + ' x: ' + e.pageX + ' y: ' + e.pageY)
-        this.moveIndex = null
+      if (this.target) {
+        console.log('target: ' + this.target + ' x: ' + e.pageX + ' y: ' + e.pageY)
+        this.target = null
       }
     },
     setPosition (index, x, y) {
