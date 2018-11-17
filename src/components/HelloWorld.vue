@@ -6,7 +6,7 @@
       @touchmove="mousemoveApp"
       @touchend="mouseupApp"
   >
-    <svg viewbox="0 0 300 200" width="300" height="200">
+    <svg viewbox="0 0 400 300" width="400" height="300">
       <line :x1="p[0].x + 30" :y1="p[0].y + 20" :x2="p[1].x" :y2="p[1].y" stroke="black"></line>
       <rect :x="p[0].x" :y="p[0].y" width=60 height="40" fill="red" @mousedown="mousedownPoint" @touchstart="mousedownPoint" />
       <circle :cx="p[1].x" :cy="p[1].y" :r="r1" fill="green" @mousedown="mousedownPoint" @touchstart="mousedownPoint"/>
